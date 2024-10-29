@@ -27,6 +27,10 @@ width: 200px;
 height: 200px;
 `;
 
+const StyledButton = styled(Button)`
+  margin: 10px;
+`;
+
 
 // Función de validación de email
 const validateEmail = (email: string) => {
@@ -67,7 +71,7 @@ export default function Index() {
 
   return (
     <MainContainer>
-      <SytledImage source={require('./src/react.png')} />
+      <SytledImage source={require('./src/react.png')} testID="icon-image"/>
       <StyledTextInput 
         placeholder="Email: " 
         autoComplete="email" 
@@ -81,11 +85,11 @@ export default function Index() {
         value={password}
         onChangeText={setPassword}
       />
-      <Button 
+      <StyledButton 
         onPress={validations} 
         title="Iniciar sesión"
       />
-      <Button 
+      <StyledButton 
         onPress={onPressLearnMore} 
         title="Ir a registro"
       />

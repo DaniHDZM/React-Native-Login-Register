@@ -20,7 +20,8 @@ const StyledTextInput = styled(TextInput)`
   border-radius: 5px;
   font-size: 16px;
   text-align: left;
-`
+`;
+
 const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -74,7 +75,7 @@ export default function Register() {
             );
             return;
         }
-          Alert.alert('Éxito', `Correo: ${email}\nNombre: ${userName} \nContraseña: ${'*'.repeat(password.length)}`);
+          
           router.push({
             pathname: "./",
           });
