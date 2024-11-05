@@ -75,7 +75,6 @@ export default function Register() {
             );
             return;
         }
-          
           router.push({
             pathname: "./",
           });

@@ -66,7 +66,7 @@ export default function Index() {
       );
       return;
     }
-    Alert.alert('Éxito', `Correo: ${email}\nContraseña: ${'*'.repeat(password.length)}`);
+    Alert.alert("Éxito", "Login correcto.");
   };
 
   return (

@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import Index from '../../app/index';
+import Register from '@/app/register';
 import { Alert } from 'react-native';
 
 jest.mock('react-native/Libraries/Alert/Alert', () => ({
-  alert: jest.fn(),
+    alert: jest.fn(),
 }));
 
-describe('Index', () => {
+describe('Register', () => {
     it('renders correctly', () => {
-        render(<Index />);
+        render(<Register />);
         expect(screen.getByPlaceholderText('Email: ')).toBeTruthy();
+        expect(screen.getByPlaceholderText('Nombre: ')).toBeTruthy();
         expect(screen.getByPlaceholderText('Contraseña: ')).toBeTruthy();
+        expect(screen.getByPlaceholderText('Confirmar Contraseña: ')).toBeTruthy();
         expect(screen.getByText('Iniciar sesión')).toBeTruthy();
-        expect(screen.getByText('Ir a registro')).toBeTruthy();
-        expect(screen.getByTestId('icon-image')).toBeTruthy();
     });
 
     it('validates email', () => {
-        render(<Index />);
+        render(<Register />);
         const emailInput = screen.getByPlaceholderText('Email: ');
         const button = screen.getByText('Iniciar sesión');
         fireEvent.changeText(emailInput, 'user@');
@@ -28,12 +28,27 @@ describe('Index', () => {
         );
     });
 
-    it('validates password', () => {
-        render(<Index />);
+    it('validates name', () => {
+        render(<Register />);
         const emailInput = screen.getByPlaceholderText('Email: ');
+        const nameInput = screen.getByPlaceholderText('Nombre: ');
+        const button = screen.getByText('Iniciar sesión');
+        fireEvent.changeText(emailInput, 'user@gmail.com');
+        fireEvent.changeText(nameInput, '');
+        fireEvent.press(button);
+        expect(Alert.alert).toHaveBeenCalledWith(
+            "Error", "El nombre de usuario no debe estar vacio"
+        );
+    });
+
+    it('validates password', () => {
+        render(<Register />);
+        const emailInput = screen.getByPlaceholderText('Email: ');
+        const nameInput = screen.getByPlaceholderText('Nombre: ');
         const passwordInput = screen.getByPlaceholderText('Contraseña: ');
         const button = screen.getByText('Iniciar sesión');
         fireEvent.changeText(emailInput, 'user@gmail.com');
+        fireEvent.changeText(nameInput, 'Juan');
         fireEvent.changeText(passwordInput, 'password');
         fireEvent.press(button);
         expect(Alert.alert).toHaveBeenCalledWith(
@@ -41,16 +56,20 @@ describe('Index', () => {
         );
     });
 
-    it('submits the form', () => {
-        render(<Index />);
+    it('confirm password', () => {
+        render(<Register />);
         const emailInput = screen.getByPlaceholderText('Email: ');
+        const nameInput = screen.getByPlaceholderText('Nombre: ');
         const passwordInput = screen.getByPlaceholderText('Contraseña: ');
+        const confirmPassword = screen.getByPlaceholderText('Confirmar Contraseña: ');
         const button = screen.getByText('Iniciar sesión');
         fireEvent.changeText(emailInput, 'user@gmail.com');
+        fireEvent.changeText(nameInput, 'Juan');
         fireEvent.changeText(passwordInput, 'Password1@');
+        fireEvent.changeText(confirmPassword, 'Password1');
         fireEvent.press(button);
         expect(Alert.alert).toHaveBeenCalledWith(
-            "Éxito", "Login correcto."
+            "Error", "Las contraseñas no coinciden"
         );
     });
 });
