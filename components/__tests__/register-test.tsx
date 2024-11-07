@@ -7,6 +7,13 @@ jest.mock('react-native/Libraries/Alert/Alert', () => ({
     alert: jest.fn(),
 }));
 
+const mockPush = jest.fn();
+jest.mock('expo-router', () => ({
+    useRouter: () => ({
+        push: mockPush
+    }),
+}));
+
 describe('Register', () => {
     it('renders correctly', () => {
         render(<Register />);
@@ -71,5 +78,19 @@ describe('Register', () => {
         expect(Alert.alert).toHaveBeenCalledWith(
             "Error", "Las contraseñas no coinciden"
         );
+    });
+    it('submits ', () => {
+        render(<Register />);
+        const emailInput = screen.getByPlaceholderText('Email: ');
+        const nameInput = screen.getByPlaceholderText('Nombre: ');
+        const passwordInput = screen.getByPlaceholderText('Contraseña: ');
+        const confirmPassword = screen.getByPlaceholderText('Confirmar Contraseña: ');
+        const button = screen.getByText('Iniciar sesión');
+        fireEvent.changeText(emailInput, 'user@gmail.com');
+        fireEvent.changeText(nameInput, 'Juan');
+        fireEvent.changeText(passwordInput, 'Password1@');
+        fireEvent.changeText(confirmPassword, 'Password1@');
+        fireEvent.press(button);
+        expect(mockPush).toHaveBeenCalledWith({ pathname: './' });
     });
 });
