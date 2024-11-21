@@ -66,7 +66,11 @@ export default function Index() {
       );
       return;
     }
+    
     Alert.alert("Éxito", "Login correcto.");
+    router.push({
+      pathname: "/home",
+    });
   };
 
   return (
@@ -93,6 +97,10 @@ export default function Index() {
         onPress={onPressLearnMore} 
         title="Ir a registro"
       />
+      <Button 
+      onPress={() => router.push("/home")}
+      title="Musica"
+        />
     </MainContainer>
   );
 }
